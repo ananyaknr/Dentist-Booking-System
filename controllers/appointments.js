@@ -139,25 +139,27 @@ exports.deleteAppointment = async(req, res, next) => {
     }
 };
 
-exports.cancelAppointment = async(req, res) => {
+exports.cancelAppointment = async(req, res, next) => {
     const { id } = req.params;
 
     try {
-        // ownership
-        if (appointment.user.toString() !== req.user.id && req.user.role !== 'admin') {
-            return res.status(401).json({ success: false, message: `User ${req.user.id} is not authorized to update this appointment` });
-        }
+        
 
         // if found appointment, set to cancelled  
         const appointment = await Appointment.findById(id);
         if (!appointment) {
             return res.status(404).json({ success: false, message: 'Appointment not found' });
         }
+        // ownership
+        if (appointment.user.toString() !== req.user.id && req.user.role !== 'admin') {
+            return res.status(401).json({ success: false, message: `User ${req.user.id} is not authorized to update this appointment` });
+        }
         appointment.status = 'cancelled';
         await appointment.save();
         res.status(200).json({ success: true, message: 'Appointment cancelled successfully', appointment });
     } catch (error) {
-        res.status(500).json({ success: false, message: 'Error cancelling appointment', error });
+        res.status(500).json({ success: false, message: 'Error cancelling appointment', error});
+        console.log(error.stack)
     }
 };
 
