@@ -6,10 +6,10 @@
 - class diagram = uml in progmeth
 - sequence diagram
     
-    extra credit
-    - status
-        - complete: past appointment
-        - cancel: either by admin or user
-        - upcoming: only one session allowed
+extra credit
+- status
+    - complete: past appointment
+    - cancel: either by admin or user
+    - upcoming: only one session allowed
 
-    - time constraint only allow 12:00, 13:00 , 14:00 ...
+- time constraint only allow 12:00, 13:00 , 14:00 ...
