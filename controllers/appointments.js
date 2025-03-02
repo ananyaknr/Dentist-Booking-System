@@ -81,9 +81,16 @@ exports.addAppointment = async(req, res, next) => {
         const appointment = await Appointment.create(req.body);
         res.status(200).json({ success: true, data: appointment });
 
-    } catch (error) {
-        console.log(error);
-        return res.status(500).json({ success: false, message: "Cannot create Appointment" });
+    } catch (err) {
+        console.log(err);
+        if (err.errors && err.errors.apptDate) {
+            console.log(err.errors.apptDate.message);
+            res.status(400).json({ success: false, message: err.errors.apptDate.message});
+        } else {
+            console.log(err);
+            res.status(400).json({ success: false, message: "Cannot create Appointment" });
+        
+        }
     }
 };
 
